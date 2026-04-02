@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Karkhana</string>
+
+    <!-- Splash -->
+    <string name="splash_title">Karkhana</string>
+    <string name="splash_tagline">Connecting Farmers with Sugar Factories</string>
+    <string name="splash_loading">LOADING</string>
+
+    <!-- Login -->
+    <string name="login_title">Welcome Back!</string>
+    <string name="login_subtitle">Sign in to manage your harvest</string>
+    <string name="role_farmer">Farmer</string>
+    <string name="role_factory">Factory</string>
+    <string name="phone_label">Phone Number</string>
+    <string name="phone_prefix">+91</string>
+    <string name="phone_hint">98765 43210</string>
+    <string name="get_otp">Get OTP</string>
+    <string name="login_footer">By continuing, you agree to our Terms of Service and Privacy Policy.</string>
+
+    <!-- OTP Verification -->
+    <string name="otp_title">Verify OTP</string>
+    <string name="otp_subtitle">Enter the 4-digit code sent to</string>
+    <string name="otp_verify">Verify</string>
+    <string name="otp_resend">Resend OTP</string>
+    <string name="otp_resend_timer">Resend OTP in %ds</string>
+    <string name="otp_didnt_receive">Didn\'t receive the code?</string>
+
+    <!-- Personal Details -->
+    <string name="registration_title">Farmer Registration</string>
+    <string name="personal_details_title">Personal Details</string>
+    <string name="personal_details_desc">Please enter your basic information to get started with the factory registration.</string>
+    <string name="upload_photo">Upload Profile Photo</string>
+    <string name="full_name_label">Full Name</string>
+    <string name="full_name_hint">e.g. Rajesh Kumar</string>
+    <string name="aadhaar_label">Aadhaar Number</string>
+    <string name="aadhaar_hint">XXXX XXXX XXXX</string>
+    <string name="mobile_label">Mobile Number</string>
+    <string name="mobile_hint">+91 98765 43210</string>
+    <string name="next_step">Next Step</string>
+
+    <!-- Farm Location -->
+    <string name="farm_location_title">Where is your farm?</string>
+    <string name="farm_location_desc">Please provide the location details of your sugarcane field.</string>
+    <string name="district_label">District</string>
+    <string name="district_hint">Select District</string>
+    <string name="village_label">Village</string>
+    <string name="village_hint">Select Village</string>
+    <string name="survey_label">Survey Number</string>
+    <string name="survey_hint">e.g., 142/2A</string>
+    <string name="pin_location_label">Pin Location</string>
+    <string name="adjust_pin">Adjust Pin</string>
+    <string name="map_hint">Tap map to fine-tune location</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_next">Next</string>
+
+    <!-- Dashboard -->
+    <string name="dashboard_greeting">Hello, Rajesh!</string>
+    <string name="dashboard_subtitle">Welcome back to your dashboard</string>
+    <string name="quick_stats">Quick Stats</string>
+    <string name="view_report">View Report</string>
+    <string name="total_area">TOTAL AREA</string>
+    <string name="total_area_value">5</string>
+    <string name="total_area_unit">Acres</string>
+    <string name="last_yield">LAST YIELD</string>
+    <string name="last_yield_value">40</string>
+    <string name="last_yield_unit">Tons</string>
+    <string name="activities">Activities</string>
+    <string name="enrolled_factory">Enrolled Factory</string>
+    <string name="enrolled_factory_name">Green Sugar Mills Ltd.</string>
+    <string name="harvest_status">Harvest Status</string>
+    <string name="harvest_in_progress">In Progress</string>
+    <string name="payments">Payments</string>
+    <string name="payments_uptodate">Up to date</string>
+    <string name="farm_details">Farm Details</string>
+    <string name="view_map">View Map</string>
+    <string name="history">History</string>
+    <string name="past_records">Past Records</string>
+    <string name="recent_updates">Recent Updates</string>
+    <string name="update_harvest_scheduled">Harvest scheduled for Plot A</string>
+    <string name="update_harvest_time">Today, 9:00 AM</string>
+    <string name="update_payment">Payment of ₹25,000 processed</string>
+    <string name="update_payment_time">Yesterday, 4:30 PM</string>
+
+    <!-- Harvest Tracking -->
+    <string name="harvest_details">Harvest Details</string>
+    <string name="active_harvest">Active Harvest</string>
+    <string name="crop_id">Crop #2023-A45</string>
+    <string name="crop_field">Sugarcane Field • Block 4</string>
+    <string name="expected_yield">Expected Yield</string>
+    <string name="expected_yield_value">~45 Tons</string>
+    <string name="variety">Variety</string>
+    <string name="variety_value">Co 0238</string>
+    <string name="harvest_timeline">HARVEST TIMELINE</string>
+    <string name="step_scheduled">Scheduled Visit</string>
+    <string name="step_scheduled_desc">Field officer inspection scheduled.</string>
+    <string name="step_scheduled_date">Oct 12, 2023</string>
+    <string name="status_completed">Completed</string>
+    <string name="step_harvest_done">Harvest Completed</string>
+    <string name="step_harvest_done_desc">Crop cutting and loading finished.</string>
+    <string name="step_harvest_done_date">Oct 14, 2023 • 08:30 AM</string>
+    <string name="status_done">Done</string>
+    <string name="step_weight">Weight Recorded</string>
+    <string name="step_weight_desc">Gross weight confirmed at factory gate.</string>
+    <string name="status_verified">Verified</string>
+    <string name="net_weight_label">Net Weight</string>
+    <string name="net_weight_value">42.5 Tons</string>
+    <string name="step_payment">Payment Initiated</string>
+    <string name="step_payment_desc">Processing via factory accounts.</string>
+    <string name="status_pending">Pending</string>
+    <string name="estimated_amount">Estimated Amount</string>
+    <string name="estimated_amount_value">₹1,25,000</string>
+    <string name="expected_by">Expected by Oct 20, 2023</string>
+
+    <!-- Nearby Factories -->
+    <string name="nearby_factories">Nearby Factories</string>
+    <string name="search_hint">Search factories or areas…</string>
+    <string name="factory1_name">Green Valley Sugar Mill</string>
+    <string name="factory1_distance">5.2 km away</string>
+    <string name="factory1_rating">4.5</string>
+    <string name="factory1_capacity">20k Tons/day</string>
+    <string name="factory2_name">Sunshine Agro Factory</string>
+    <string name="factory2_distance">8.1 km away</string>
+    <string name="factory2_rating">4.2</string>
+    <string name="factory2_capacity">15k Tons/day</string>
+    <string name="factory3_name">Riverbank Processors</string>
+    <string name="factory3_distance">12.4 km away</string>
+    <string name="factory3_rating">4.8</string>
+    <string name="factory3_capacity">32k Tons/day</string>
+    <string name="capacity_label">CAPACITY</string>
+    <string name="enroll">Enroll</string>
+
+    <!-- Bottom Nav -->
+    <string name="nav_home">Home</string>
+    <string name="nav_harvest">Harvest</string>
+    <string name="nav_factories">Factories</string>
+    <string name="nav_profile">Profile</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_name">Rajesh Kumar</string>
+    <string name="profile_phone">+91 98765 43210</string>
+    <string name="profile_aadhaar">XXXX XXXX 4321</string>
+    <string name="profile_district">Belagavi</string>
+    <string name="profile_village">Athani</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="settings">Settings</string>
+    <string name="help_support">Help &amp; Support</string>
+    <string name="about">About</string>
+    <string name="logout">Logout</string>
+</resources>
