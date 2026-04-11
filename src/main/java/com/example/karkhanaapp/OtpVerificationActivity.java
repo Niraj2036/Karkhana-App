@@ -31,9 +31,12 @@ public class OtpVerificationActivity extends AppCompatActivity {
         tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
 
         // Show phone number from intent
-        String phone = getIntent().getStringExtra("phone");
-        if (phone != null && !phone.isEmpty()) {
-            tvPhoneNumber.setText("+91 " + phone);
+        String contact = getIntent().getStringExtra("contact");
+        if (contact == null || contact.isEmpty()) {
+            contact = getIntent().getStringExtra("phone");
+        }
+        if (contact != null && !contact.isEmpty()) {
+            tvPhoneNumber.setText(getString(R.string.otp_sent_to_format, contact));
         }
 
         // Auto-focus between OTP fields
@@ -49,9 +52,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
         findViewById(R.id.backBtn).setOnClickListener(v -> finish());
 
         // Verify button
-        btnVerify.setOnClickListener(v -> {
-            startActivity(new Intent(OtpVerificationActivity.this, PersonalDetailsActivity.class));
-        });
+        btnVerify.setOnClickListener(v -> startActivity(new Intent(OtpVerificationActivity.this, PersonalDetailsActivity.class)));
     }
 
     private void setupOtpAutoFocus(EditText current, EditText next) {
@@ -76,7 +77,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                tvResend.setText(String.format("Resend OTP in %ds", millisUntilFinished / 1000));
+                tvResend.setText(getString(R.string.otp_resend_timer, millisUntilFinished / 1000));
             }
 
             @Override

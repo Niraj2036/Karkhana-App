@@ -39,7 +39,7 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- Progress Bar (4 steps, step 1 active) -->
+    <!-- Progress Bar (single onboarding step) -->
     <LinearLayout
         android:id="@+id/progressBar"
         android:layout_width="0dp"
@@ -52,29 +52,9 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <View
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="6dp"
-            android:layout_weight="1"
-            android:layout_marginEnd="4dp"
             android:background="@drawable/progress_active" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="6dp"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="4dp"
-            android:background="@drawable/progress_inactive" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="6dp"
-            android:layout_weight="1"
-            android:layout_marginHorizontal="4dp"
-            android:background="@drawable/progress_inactive" />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="6dp"
-            android:layout_weight="1"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/progress_inactive" />
     </LinearLayout>
 
     <!-- Scrollable Content -->
@@ -322,7 +302,7 @@
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:background="@drawable/btn_primary"
-            android:text="@string/next_step"
+            android:text="@string/complete_profile"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"

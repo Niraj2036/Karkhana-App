@@ -26,7 +26,9 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         backBtn.setOnClickListener(v -> finish());
 
         btnNextStep.setOnClickListener(v -> {
-            startActivity(new Intent(PersonalDetailsActivity.this, FarmLocationActivity.class));
+            Intent intent = new Intent(PersonalDetailsActivity.this, MainAppActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
         });
     }
 }

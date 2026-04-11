@@ -2,58 +2,42 @@ package com.example.karkhanaapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
+import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private TextView toggleFarmer, toggleFactory;
-    private EditText phoneInput;
+    private EditText contactInput;
     private Button btnGetOtp;
-    private boolean isFarmerSelected = true;
+    private Button btnGoogleLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        toggleFarmer = findViewById(R.id.toggleFarmer);
-        toggleFactory = findViewById(R.id.toggleFactory);
-        phoneInput = findViewById(R.id.phoneInput);
+        contactInput = findViewById(R.id.contactInput);
         btnGetOtp = findViewById(R.id.btnGetOtp);
+        btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
 
-        // Toggle selection
-        toggleFarmer.setOnClickListener(v -> selectRole(true));
-        toggleFactory.setOnClickListener(v -> selectRole(false));
+        btnGoogleLogin.setOnClickListener(v -> {
+            Toast.makeText(this, "Google login selected", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(LoginActivity.this, PersonalDetailsActivity.class));
+        });
 
         // Get OTP button
         btnGetOtp.setOnClickListener(v -> {
-            String phone = phoneInput.getText().toString().trim();
+            String contact = contactInput.getText().toString().trim();
+            if (contact.isEmpty() || !Patterns.EMAIL_ADDRESS.matcher(contact).matches()) {
+                Toast.makeText(this, "Please enter a valid email address", Toast.LENGTH_SHORT).show();
+                return;
+            }
             Intent intent = new Intent(LoginActivity.this, OtpVerificationActivity.class);
-            intent.putExtra("phone", phone);
+            intent.putExtra("contact", contact);
             startActivity(intent);
         });
-    }
-
-    private void selectRole(boolean farmer) {
-        isFarmerSelected = farmer;
-        if (farmer) {
-            toggleFarmer.setBackgroundResource(R.drawable.selected_toggle_pill);
-            toggleFarmer.setTextColor(getResources().getColor(R.color.primary, null));
-            toggleFarmer.setElevation(4f);
-            toggleFactory.setBackgroundResource(0);
-            toggleFactory.setTextColor(getResources().getColor(R.color.text_hint, null));
-            toggleFactory.setElevation(0f);
-        } else {
-            toggleFactory.setBackgroundResource(R.drawable.selected_toggle_pill);
-            toggleFactory.setTextColor(getResources().getColor(R.color.primary, null));
-            toggleFactory.setElevation(4f);
-            toggleFarmer.setBackgroundResource(0);
-            toggleFarmer.setTextColor(getResources().getColor(R.color.text_hint, null));
-            toggleFarmer.setElevation(0f);
-        }
     }
 }

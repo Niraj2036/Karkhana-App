@@ -29,7 +29,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_revert"
                 app:tint="@color/text_primary"
-                android:contentDescription="Back" />
+                android:contentDescription="@string/cd_back" />
 
             <TextView
                 android:layout_width="0dp"
@@ -47,11 +47,12 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:src="@android:drawable/ic_menu_more"
                 app:tint="@color/text_primary"
-                android:contentDescription="More" />
+                android:contentDescription="@string/cd_more" />
         </LinearLayout>
 
         <!-- Crop Info Card -->
         <LinearLayout
+            android:id="@+id/cropInfoCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -111,7 +112,7 @@
                         android:layout_gravity="center"
                         android:src="@android:drawable/ic_menu_crop"
                         app:tint="@color/primary"
-                        android:contentDescription="Crop" />
+                        android:contentDescription="@string/cd_crop" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -122,53 +123,31 @@
                 android:layout_marginVertical="16dp"
                 android:background="@color/border_card" />
 
-            <!-- Yield and Variety -->
+            <!-- Farm and harvest info -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvSelectedFarm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/expected_yield"
+                        android:text="@string/selected_farm_placeholder"
                         android:textColor="@color/text_muted"
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tvSelectedHarvest"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/expected_yield_value"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/variety"
-                        android:textColor="@color/text_muted"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="@string/variety_value"
+                        android:text="@string/selected_harvest_placeholder"
                         android:textColor="@color/text_primary"
                         android:textSize="16sp"
                         android:textStyle="bold" />
@@ -176,8 +155,38 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/emptyHarvestState"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/card_bg"
+            android:elevation="1dp"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/harvest_empty_title"
+                android:textColor="@color/text_primary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/harvest_empty_desc"
+                android:textColor="@color/text_muted"
+                android:textSize="14sp" />
+        </LinearLayout>
+
         <!-- Timeline Section -->
         <LinearLayout
+            android:id="@+id/timelineSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
@@ -200,7 +209,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingStart="8dp">
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp">
 
                 <!-- Step 1: Scheduled Visit -->
                 <LinearLayout
@@ -226,7 +236,7 @@
                                 android:layout_gravity="center"
                                 android:src="@android:drawable/ic_menu_month"
                                 app:tint="@color/white"
-                                android:contentDescription="Calendar" />
+                                android:contentDescription="@string/cd_calendar" />
                         </FrameLayout>
 
                         <View
@@ -318,7 +328,7 @@
                                 android:layout_gravity="center"
                                 android:src="@android:drawable/checkbox_on_background"
                                 app:tint="@color/white"
-                                android:contentDescription="Check" />
+                                android:contentDescription="@string/cd_check" />
                         </FrameLayout>
 
                         <View
@@ -409,7 +419,7 @@
                                 android:layout_gravity="center"
                                 android:src="@android:drawable/ic_menu_sort_by_size"
                                 app:tint="@color/white"
-                                android:contentDescription="Scale" />
+                                android:contentDescription="@string/cd_scale" />
                         </FrameLayout>
 
                         <View
@@ -508,7 +518,7 @@
                             android:layout_gravity="center"
                             android:src="@android:drawable/ic_menu_send"
                             app:tint="@color/primary"
-                            android:contentDescription="Payment" />
+                            android:contentDescription="@string/cd_payment" />
                     </FrameLayout>
 
                     <LinearLayout

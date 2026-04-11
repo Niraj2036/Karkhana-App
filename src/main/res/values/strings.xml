@@ -8,19 +8,21 @@
     <string name="splash_loading">LOADING</string>
 
     <!-- Login -->
-    <string name="login_title">Welcome Back!</string>
-    <string name="login_subtitle">Sign in to manage your harvest</string>
-    <string name="role_farmer">Farmer</string>
-    <string name="role_factory">Factory</string>
-    <string name="phone_label">Phone Number</string>
+    <string name="login_title">Farmer Login</string>
+    <string name="login_subtitle">Continue with Google or verify with OTP</string>
+    <string name="login_google">Continue with Google</string>
+    <string name="login_or">or</string>
+    <string name="contact_label">Email address</string>
     <string name="phone_prefix">+91</string>
-    <string name="phone_hint">98765 43210</string>
+    <string name="contact_hint">Enter your email address</string>
     <string name="get_otp">Get OTP</string>
     <string name="login_footer">By continuing, you agree to our Terms of Service and Privacy Policy.</string>
 
     <!-- OTP Verification -->
     <string name="otp_title">Verify OTP</string>
     <string name="otp_subtitle">Enter the 4-digit code sent to</string>
+    <string name="otp_sent_to">Code sent to</string>
+    <string name="otp_sent_to_format">Code sent to %1$s</string>
     <string name="otp_verify">Verify</string>
     <string name="otp_resend">Resend OTP</string>
     <string name="otp_resend_timer">Resend OTP in %ds</string>
@@ -28,6 +30,8 @@
 
     <!-- Personal Details -->
     <string name="registration_title">Farmer Registration</string>
+    <string name="registration_step_personal">Personal Details</string>
+    <string name="registration_step_farm">Farm Registration</string>
     <string name="personal_details_title">Personal Details</string>
     <string name="personal_details_desc">Please enter your basic information to get started with the factory registration.</string>
     <string name="upload_photo">Upload Profile Photo</string>
@@ -38,10 +42,19 @@
     <string name="mobile_label">Mobile Number</string>
     <string name="mobile_hint">+91 98765 43210</string>
     <string name="next_step">Next Step</string>
+    <string name="complete_profile">Complete Profile</string>
 
     <!-- Farm Location -->
     <string name="farm_location_title">Where is your farm?</string>
     <string name="farm_location_desc">Please provide the location details of your sugarcane field.</string>
+    <string name="add_farm_title">Add Farm Details</string>
+    <string name="add_farm_desc">Fill farm details to start harvest enrollment from the app.</string>
+    <string name="area_type_label">Area Type</string>
+    <string name="owner_label">Owner in Survey No</string>
+    <string name="owner_hint">e.g., Rajesh Kumar</string>
+    <string name="crop_type_label">Crop Type</string>
+    <string name="farm_area_label">Farm Area (Acres)</string>
+    <string name="farm_area_hint">e.g., 3.5</string>
     <string name="district_label">District</string>
     <string name="district_hint">Select District</string>
     <string name="village_label">Village</string>
@@ -51,8 +64,10 @@
     <string name="pin_location_label">Pin Location</string>
     <string name="adjust_pin">Adjust Pin</string>
     <string name="map_hint">Tap map to fine-tune location</string>
+    <string name="actual_map_loading">Loading map…</string>
     <string name="btn_back">Back</string>
     <string name="btn_next">Next</string>
+    <string name="save_farm">Save Farm</string>
 
     <!-- Dashboard -->
     <string name="dashboard_greeting">Hello, Rajesh!</string>
@@ -129,6 +144,11 @@
     <string name="factory3_capacity">32k Tons/day</string>
     <string name="capacity_label">CAPACITY</string>
     <string name="enroll">Enroll</string>
+    <string name="select_farm_title">Select Farm for Enrollment</string>
+    <string name="enroll_confirm">Enroll Harvest</string>
+    <string name="enroll_cancel">Cancel</string>
+    <string name="enroll_pick_farm">Please select one farm to continue</string>
+    <string name="enroll_success">Enrollment created. Harvest timeline is now active.</string>
 
     <!-- Bottom Nav -->
     <string name="nav_home">Home</string>
@@ -136,11 +156,25 @@
     <string name="nav_factories">Factories</string>
     <string name="nav_profile">Profile</string>
 
+    <!-- Harvest Empty State -->
+    <string name="harvest_empty_title">No active harvest timeline</string>
+    <string name="harvest_empty_desc">Enroll a farm from Nearby Factories to generate a harvest timeline.</string>
+    <string name="harvest_label_format">Harvest: %1$s</string>
+    <string name="selected_farm_placeholder">Farm A - Green Valley Sugar Mill</string>
+    <string name="selected_harvest_placeholder">Harvest: Early Season</string>
+    <string name="cd_back">Back</string>
+    <string name="cd_more">More</string>
+    <string name="cd_crop">Crop</string>
+    <string name="cd_calendar">Calendar</string>
+    <string name="cd_check">Check</string>
+    <string name="cd_scale">Scale</string>
+    <string name="cd_payment">Payment</string>
+
     <!-- Profile -->
     <string name="profile_title">Profile</string>
     <string name="profile_name">Rajesh Kumar</string>
     <string name="profile_phone">+91 98765 43210</string>
-    <string name="profile_aadhaar">XXXX XXXX 4321</string>
+    <string name="profile_aadhaar">XXXX XXXX XXXX</string>
     <string name="profile_district">Belagavi</string>
     <string name="profile_village">Athani</string>
     <string name="edit_profile">Edit Profile</string>

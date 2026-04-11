@@ -20,11 +20,12 @@
         android:id="@+id/fabContainer"
         android:layout_width="56dp"
         android:layout_height="56dp"
+        android:layout_marginBottom="24dp"
         android:elevation="8dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:translationY="28dp">
+        >
 
         <ImageButton
             android:id="@+id/fab"

@@ -42,45 +42,12 @@
             android:layout_height="40dp" />
     </LinearLayout>
 
-    <!-- Progress Dots (step 2 active) -->
-    <LinearLayout
-        android:id="@+id/dots"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="16dp"
-        app:layout_constraintTop_toBottomOf="@id/header"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_margin="6dp"
-            android:background="@drawable/dot_inactive" />
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_margin="6dp"
-            android:background="@drawable/dot_active" />
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_margin="6dp"
-            android:background="@drawable/dot_inactive" />
-        <View
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_margin="6dp"
-            android:background="@drawable/dot_inactive" />
-    </LinearLayout>
-
     <!-- Scrollable Content -->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/dots"
+        app:layout_constraintTop_toBottomOf="@id/header"
         app:layout_constraintBottom_toTopOf="@id/bottomBar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
@@ -96,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/farm_location_title"
+                android:text="@string/add_farm_title"
                 android:textColor="@color/text_primary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -106,10 +73,27 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="24dp"
-                android:text="@string/farm_location_desc"
+                android:text="@string/add_farm_desc"
                 android:textColor="@color/text_muted"
                 android:textSize="14sp"
                 android:lineSpacingMultiplier="1.4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/area_type_label"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/areaTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/input_border_rounded"
+                android:paddingHorizontal="16dp" />
 
             <!-- District Dropdown -->
             <TextView
@@ -161,12 +145,72 @@
                 android:id="@+id/etSurvey"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/input_border_rounded"
                 android:hint="@string/survey_hint"
                 android:textColorHint="@color/text_hint"
                 android:paddingHorizontal="16dp"
                 android:textColor="@color/text_primary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/owner_label"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etOwner"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/input_border_rounded"
+                android:hint="@string/owner_hint"
+                android:textColorHint="@color/text_hint"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/text_primary"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/crop_type_label"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/cropTypeSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/input_border_rounded"
+                android:paddingHorizontal="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="@string/farm_area_label"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etFarmArea"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/input_border_rounded"
+                android:hint="@string/farm_area_hint"
+                android:inputType="numberDecimal"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/text_primary"
+                android:textColorHint="@color/text_hint"
                 android:textSize="14sp" />
 
             <!-- Pin Location Label -->
@@ -179,7 +223,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <!-- Map Placeholder -->
+            <!-- Actual Map -->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
@@ -187,13 +231,10 @@
                 android:background="@drawable/map_placeholder"
                 android:clipChildren="true">
 
-                <!-- Map background image -->
-                <ImageView
+                <WebView
+                    android:id="@+id/farmMapWebView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/bg_farmer"
-                    android:alpha="0.4"
                     android:contentDescription="Map" />
 
                 <!-- Pin Icon -->
@@ -294,7 +335,7 @@
             android:layout_height="52dp"
             android:layout_weight="2"
             android:background="@drawable/btn_primary"
-            android:text="@string/btn_next"
+            android:text="@string/save_farm"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="16sp"
