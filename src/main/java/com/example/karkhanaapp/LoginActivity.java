@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.karkhanaapp.repositories.ProfileRepository;
 import com.example.karkhanaapp.repositories.UserRepository;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -35,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private GoogleSignInClient googleSignInClient;
     private boolean googleSignInConfigured;
     private UserRepository userRepository;
+    private ProfileRepository profileRepository;
 
     private final ActivityResultLauncher<Intent> googleSignInLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -69,7 +71,8 @@ public class LoginActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         userRepository = new UserRepository();
-        
+        profileRepository = new ProfileRepository();
+
         int webClientIdResId = getResources().getIdentifier(
                 "default_web_client_id", "string", getPackageName());
         String webClientId = webClientIdResId == 0 ? null : getString(webClientIdResId);
@@ -118,9 +121,19 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        if (firebaseAuth.getCurrentUser() != null) {
-            startActivity(new Intent(this, MainAppActivity.class));
-            finish();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            profileRepository.checkProfileExists(user.getUid(), exists -> {
+                Intent intent;
+                if (exists) {
+                    intent = new Intent(this, MainAppActivity.class);
+                } else {
+                    intent = new Intent(this, PersonalDetailsActivity.class);
+                    intent.putExtra("contact", user.getEmail());
+                }
+                startActivity(intent);
+                finish();
+            });
         }
     }
 
@@ -139,13 +152,20 @@ public class LoginActivity extends AppCompatActivity {
                                     user.getEmail(),
                                     user.getDisplayName()
                             );
-                            
+
                             Toast.makeText(LoginActivity.this, "Signed in successfully", Toast.LENGTH_SHORT).show();
-                            // Redirect to Personal Details to collect phone and other info
-                            Intent intent = new Intent(LoginActivity.this, PersonalDetailsActivity.class);
-                            intent.putExtra("contact", user.getEmail());
-                            startActivity(intent);
-                            finish();
+
+                            profileRepository.checkProfileExists(user.getUid(), exists -> {
+                                Intent intent;
+                                if (exists) {
+                                    intent = new Intent(LoginActivity.this, MainAppActivity.class);
+                                } else {
+                                    intent = new Intent(LoginActivity.this, PersonalDetailsActivity.class);
+                                    intent.putExtra("contact", user.getEmail());
+                                }
+                                startActivity(intent);
+                                finish();
+                            });
                         }
                     } else {
                         Log.e(TAG, "Firebase auth with Google failed", task.getException());

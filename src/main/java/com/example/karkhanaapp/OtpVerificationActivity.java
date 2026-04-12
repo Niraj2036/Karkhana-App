@@ -11,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.karkhanaapp.repositories.ProfileRepository;
+import com.google.firebase.auth.FirebaseAuth;
+
 public class OtpVerificationActivity extends AppCompatActivity {
 
     private EditText otp1, otp2, otp3, otp4;
@@ -65,9 +68,25 @@ public class OtpVerificationActivity extends AppCompatActivity {
                 return;
             }
 
-            Intent intent = new Intent(OtpVerificationActivity.this, PersonalDetailsActivity.class);
-            intent.putExtra("contact", contact);
-            startActivity(intent);
+            String uid = FirebaseAuth.getInstance().getUid();
+            if (uid == null) {
+                Intent intent = new Intent(OtpVerificationActivity.this, PersonalDetailsActivity.class);
+                intent.putExtra("contact", contact);
+                startActivity(intent);
+                return;
+            }
+
+            new ProfileRepository().checkProfileExists(uid, exists -> {
+                Intent intent;
+                if (exists) {
+                    intent = new Intent(OtpVerificationActivity.this, MainAppActivity.class);
+                } else {
+                    intent = new Intent(OtpVerificationActivity.this, PersonalDetailsActivity.class);
+                    intent.putExtra("contact", contact);
+                }
+                startActivity(intent);
+                finish();
+            });
         });
     }
 

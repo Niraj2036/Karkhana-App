@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.example.karkhanaapp.models.Harvest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import java.util.List;
 
@@ -38,6 +39,51 @@ public class HarvestRepository {
                     listener.onError(e.getMessage());
                     Log.e(TAG, "Failed to create harvest", e);
                 });
+    }
+
+    /**
+     * Create or update harvest timeline for enrolled farm.
+     */
+    public void upsertEnrollmentHarvest(String farmerId, String farmId, String cropType, String sugarFactoryId, OnCompleteListener listener) {
+        firestore.collection(HARVESTS_COLLECTION)
+                .whereEqualTo("farmId", farmId)
+                .limit(1)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (!querySnapshot.isEmpty()) {
+                        String harvestId = querySnapshot.getDocuments().get(0).getId();
+                        Harvest existingHarvest = querySnapshot.getDocuments().get(0).toObject(Harvest.class);
+                        if (existingHarvest == null) {
+                            existingHarvest = new Harvest();
+                        }
+                        existingHarvest.setFarmId(farmId);
+                        existingHarvest.setFarmerId(farmerId);
+                        existingHarvest.setCropType(cropType);
+                        existingHarvest.setSugarFactoryId(sugarFactoryId);
+                        if (existingHarvest.getStatus() == null || existingHarvest.getStatus().trim().isEmpty()) {
+                            existingHarvest.setStatus("NONE");
+                        }
+                        Harvest finalHarvest = existingHarvest;
+                        firestore.collection(HARVESTS_COLLECTION)
+                                .document(harvestId)
+                                .set(finalHarvest)
+                                .addOnSuccessListener(aVoid -> listener.onSuccess(finalHarvest))
+                                .addOnFailureListener(e -> listener.onError(e.getMessage()));
+                        return;
+                    }
+
+                    Harvest harvest = new Harvest();
+                    harvest.setFarmId(farmId);
+                    harvest.setFarmerId(farmerId);
+                    harvest.setCropType(cropType);
+                    harvest.setSugarFactoryId(sugarFactoryId);
+                    harvest.setStatus("NONE");
+                    harvest.setActualWeight(0.0);
+                    harvest.setExpectedYield(0.0);
+
+                    createHarvest(harvest, listener);
+                })
+                .addOnFailureListener(e -> listener.onError(e.getMessage()));
     }
 
     /**

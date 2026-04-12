@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class PersonalDetailsActivity extends AppCompatActivity {
 
-    private EditText etFullName, etAadhaar, etMobile;
+    private EditText etFullName, etAadhaar, etMobile, etDistrict, etVillage;
     private Button btnNextStep;
     private ProfileRepository profileRepository;
     private UserRepository userRepository;
@@ -32,6 +32,8 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         etFullName = findViewById(R.id.etFullName);
         etAadhaar = findViewById(R.id.etAadhaar);
         etMobile = findViewById(R.id.etMobile);
+        etDistrict = findViewById(R.id.etDistrict);
+        etVillage = findViewById(R.id.etVillage);
         btnNextStep = findViewById(R.id.btnNextStep);
         ImageButton backBtn = findViewById(R.id.backBtn);
         profileRepository = new ProfileRepository();
@@ -51,6 +53,8 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         String fullName = etFullName.getText().toString().trim();
         String aadhaarRaw = etAadhaar.getText().toString().replaceAll("\\s+", "").trim();
         String mobile = etMobile.getText().toString().trim();
+        String district = etDistrict.getText().toString().trim();
+        String village = etVillage.getText().toString().trim();
 
         if (TextUtils.isEmpty(fullName)) {
             etFullName.setError("Enter full name");
@@ -67,12 +71,22 @@ public class PersonalDetailsActivity extends AppCompatActivity {
             etMobile.requestFocus();
             return;
         }
+        if (TextUtils.isEmpty(district)) {
+            etDistrict.setError("Enter district");
+            etDistrict.requestFocus();
+            return;
+        }
+        if (TextUtils.isEmpty(village)) {
+            etVillage.setError("Enter village");
+            etVillage.requestFocus();
+            return;
+        }
 
         btnNextStep.setEnabled(false);
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
             FirebaseAuth.getInstance().signInAnonymously()
-                    .addOnSuccessListener(result -> persistProfile(result.getUser(), fullName, aadhaarRaw, mobile))
+                    .addOnSuccessListener(result -> persistProfile(result.getUser(), fullName, aadhaarRaw, mobile, district, village))
                     .addOnFailureListener(e -> {
                         btnNextStep.setEnabled(true);
                         Toast.makeText(this, "Unable to continue: " + e.getMessage(), Toast.LENGTH_LONG).show();
@@ -80,10 +94,10 @@ public class PersonalDetailsActivity extends AppCompatActivity {
             return;
         }
 
-        persistProfile(currentUser, fullName, aadhaarRaw, mobile);
+        persistProfile(currentUser, fullName, aadhaarRaw, mobile, district, village);
     }
 
-    private void persistProfile(FirebaseUser user, String fullName, String aadhaarRaw, String mobile) {
+    private void persistProfile(FirebaseUser user, String fullName, String aadhaarRaw, String mobile, String district, String village) {
         if (user == null) {
             btnNextStep.setEnabled(true);
             Toast.makeText(this, "User session missing", Toast.LENGTH_SHORT).show();
@@ -100,19 +114,21 @@ public class PersonalDetailsActivity extends AppCompatActivity {
         farmer.setEmail(email != null ? email : "");
         farmer.setPhone(mobile);
         farmer.setAadhaarMasked(aadhaarMasked);
-        farmer.setDistrict("Not set");
-        farmer.setVillage("Not set");
+        farmer.setDistrict(district);
+        farmer.setVillage(village);
         farmer.setTotalArea(0.0);
         farmer.setLastYield(0.0);
         userRepository.updateFarmer(uid, farmer);
 
-        Profile profile = new Profile(uid, aadhaarMasked, "Not set", "Not set");
+        Profile profile = new Profile(uid, aadhaarMasked, district, village);
         profileRepository.saveProfile(profile, new ProfileRepository.OnCompleteListener() {
             @Override
             public void onSuccess(Profile savedProfile) {
                 btnNextStep.setEnabled(true);
-                Intent intent = new Intent(PersonalDetailsActivity.this, FarmLocationActivity.class);
+                Intent intent = new Intent(PersonalDetailsActivity.this, MainAppActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
+                finish();
             }
 
             @Override

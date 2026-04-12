@@ -52,6 +52,31 @@
 
         <!-- Crop Info Card -->
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/select_farm_label"
+                android:textColor="@color/text_muted"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerHarvestFarm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/input_border_rounded"
+                android:padding="8dp" />
+        </LinearLayout>
+
+        <!-- Crop Info Card -->
+        <LinearLayout
             android:id="@+id/cropInfoCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,6 +111,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvCropIdValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/crop_id"
@@ -94,6 +120,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvCropFieldValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -274,6 +301,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tvStageScheduledStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/badge_green"
@@ -292,6 +320,7 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tvStepScheduledDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -365,6 +394,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tvStageHarvestDoneStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/badge_green"
@@ -383,6 +413,7 @@
                             android:textSize="13sp" />
 
                         <TextView
+                            android:id="@+id/tvStepHarvestDoneDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
@@ -456,6 +487,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tvStageWeightStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/badge_green"
@@ -492,6 +524,7 @@
                                 android:textSize="14sp" />
 
                             <TextView
+                                android:id="@+id/tvNetWeightValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/net_weight_value"
@@ -548,6 +581,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/tvStagePaymentStatus"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/badge_yellow"
@@ -582,6 +616,7 @@
                                 android:textSize="13sp" />
 
                             <TextView
+                                android:id="@+id/tvEstimatedAmountValue"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@string/estimated_amount_value"
@@ -602,6 +637,7 @@
                             android:progressBackgroundTint="@color/border_light" />
 
                         <TextView
+                            android:id="@+id/tvExpectedByValue"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"

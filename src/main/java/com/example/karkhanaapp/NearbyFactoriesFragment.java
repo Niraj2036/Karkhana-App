@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.karkhanaapp.models.Farm;
 import com.example.karkhanaapp.repositories.FarmRepository;
+import com.example.karkhanaapp.repositories.HarvestRepository;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -102,14 +103,39 @@ public class NearbyFactoriesFragment extends Fragment {
                     }
 
                     Farm selectedFarm = userFarms.get(selectedIndex[0]);
+                    String uid = FirebaseAuth.getInstance().getUid();
+                    if (uid == null) {
+                        Toast.makeText(requireContext(), "Please sign in first", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     String farmName = selectedFarm.getVillage() + " - " + selectedFarm.getSurveyNumber();
                     String harvestName = selectedFarm.getCropType();
                     EnrollmentState.setEnrollment(requireContext(), farmName + " - " + factoryName, harvestName);
-                    Toast.makeText(requireContext(), R.string.enroll_success, Toast.LENGTH_SHORT).show();
 
-                    if (requireActivity() instanceof MainAppActivity) {
-                        ((MainAppActivity) requireActivity()).switchToHarvestTab();
-                    }
+                    new HarvestRepository().upsertEnrollmentHarvest(
+                            uid,
+                            selectedFarm.getFarmId(),
+                            selectedFarm.getCropType(),
+                            factoryName,
+                            new HarvestRepository.OnCompleteListener() {
+                                @Override
+                                public void onSuccess(com.example.karkhanaapp.models.Harvest harvest) {
+                                    Toast.makeText(requireContext(), R.string.enroll_success, Toast.LENGTH_SHORT).show();
+                                    if (requireActivity() instanceof MainAppActivity) {
+                                        ((MainAppActivity) requireActivity()).switchToHarvestTab();
+                                    }
+                                }
+
+                                @Override
+                                public void onError(String error) {
+                                    Toast.makeText(requireContext(), "Enrollment saved, timeline sync failed", Toast.LENGTH_LONG).show();
+                                    if (requireActivity() instanceof MainAppActivity) {
+                                        ((MainAppActivity) requireActivity()).switchToHarvestTab();
+                                    }
+                                }
+                            }
+                    );
                 })
                 .show();
     }

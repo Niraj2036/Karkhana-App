@@ -29,12 +29,12 @@ public final class EnrollmentState {
 
     public static String getFarmName(Context context) {
         return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                .getString(KEY_FARM_NAME, "Farm A");
+                .getString(KEY_FARM_NAME, "--");
     }
 
     public static String getHarvestName(Context context) {
         return context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
-                .getString(KEY_HARVEST_NAME, "Sugarcane Harvest");
+                .getString(KEY_HARVEST_NAME, "--");
     }
 }
 
