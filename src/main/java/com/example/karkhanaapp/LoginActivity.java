@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.karkhanaapp.repositories.UserRepository;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -20,6 +21,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
@@ -32,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private GoogleSignInClient googleSignInClient;
     private boolean googleSignInConfigured;
+    private UserRepository userRepository;
 
     private final ActivityResultLauncher<Intent> googleSignInLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
@@ -65,6 +68,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        userRepository = new UserRepository();
+        
         int webClientIdResId = getResources().getIdentifier(
                 "default_web_client_id", "string", getPackageName());
         String webClientId = webClientIdResId == 0 ? null : getString(webClientIdResId);
@@ -81,6 +86,9 @@ public class LoginActivity extends AppCompatActivity {
         contactInput = findViewById(R.id.contactInput);
         btnGetOtp = findViewById(R.id.btnGetOtp);
         btnGoogleLogin = findViewById(R.id.btnGoogleLogin);
+        findViewById(R.id.backBtn).setOnClickListener(v -> finish());
+        findViewById(R.id.helpBtn).setOnClickListener(v ->
+                Toast.makeText(this, "Use Google Sign-In or enter email for OTP", Toast.LENGTH_SHORT).show());
 
         btnGoogleLogin.setOnClickListener(v -> {
             if (!googleSignInConfigured || googleSignInClient == null) {
@@ -123,12 +131,25 @@ public class LoginActivity extends AppCompatActivity {
                     btnGoogleLogin.setEnabled(true);
 
                     if (task.isSuccessful()) {
-                        Toast.makeText(this, "Signed in successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(this, MainAppActivity.class));
-                        finish();
+                        FirebaseUser user = firebaseAuth.getCurrentUser();
+                        if (user != null) {
+                            // Sync user data to Firestore
+                            userRepository.syncGoogleUserToFirestore(
+                                    user.getUid(),
+                                    user.getEmail(),
+                                    user.getDisplayName()
+                            );
+                            
+                            Toast.makeText(LoginActivity.this, "Signed in successfully", Toast.LENGTH_SHORT).show();
+                            // Redirect to Personal Details to collect phone and other info
+                            Intent intent = new Intent(LoginActivity.this, PersonalDetailsActivity.class);
+                            intent.putExtra("contact", user.getEmail());
+                            startActivity(intent);
+                            finish();
+                        }
                     } else {
                         Log.e(TAG, "Firebase auth with Google failed", task.getException());
-                        Toast.makeText(this, "Authentication failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Authentication failed", Toast.LENGTH_SHORT).show();
                     }
                 });
     }

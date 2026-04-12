@@ -10,13 +10,22 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.karkhanaapp.models.Farm;
+import com.example.karkhanaapp.repositories.FarmRepository;
+import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class NearbyFactoriesFragment extends Fragment {
 
     private static final String FACTORY_MAP_URL = "https://www.openstreetmap.org/export/embed.html?bbox=74.1%2C15.1%2C75.7%2C16.9&layer=mapnik";
+    private final List<Farm> userFarms = new ArrayList<>();
 
     @Nullable
     @Override
@@ -33,6 +42,19 @@ public class NearbyFactoriesFragment extends Fragment {
         Button btnEnrollFactory1 = view.findViewById(R.id.btnEnrollFactory1);
         Button btnEnrollFactory2 = view.findViewById(R.id.btnEnrollFactory2);
         Button btnEnrollFactory3 = view.findViewById(R.id.btnEnrollFactory3);
+        view.findViewById(R.id.btnFactoriesBack).setOnClickListener(v -> {
+            if (requireActivity() instanceof MainAppActivity) {
+                ((MainAppActivity) requireActivity()).switchToHarvestTab();
+            }
+        });
+        view.findViewById(R.id.btnFactoriesFilter).setOnClickListener(v ->
+                Toast.makeText(requireContext(), "Filter coming soon", Toast.LENGTH_SHORT).show());
+        view.findViewById(R.id.btnZoomIn).setOnClickListener(v ->
+                Toast.makeText(requireContext(), "Zoom in not supported in embed view", Toast.LENGTH_SHORT).show());
+        view.findViewById(R.id.btnZoomOut).setOnClickListener(v ->
+                Toast.makeText(requireContext(), "Zoom out not supported in embed view", Toast.LENGTH_SHORT).show());
+        view.findViewById(R.id.btnMyLocation).setOnClickListener(v ->
+                Toast.makeText(requireContext(), "Using saved farm location", Toast.LENGTH_SHORT).show());
 
         WebSettings settings = nearbyMapWebView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -40,16 +62,32 @@ public class NearbyFactoriesFragment extends Fragment {
         nearbyMapWebView.setWebViewClient(new WebViewClient());
         nearbyMapWebView.loadUrl(FACTORY_MAP_URL);
 
+        String uid = FirebaseAuth.getInstance().getUid();
+        if (uid != null) {
+            new FarmRepository().getFarmsByFarmerId(uid).observe(getViewLifecycleOwner(), farms -> {
+                userFarms.clear();
+                if (farms != null) {
+                    userFarms.addAll(farms);
+                }
+            });
+        }
+
         btnEnrollFactory1.setOnClickListener(v -> showFarmSelectionDialog(getString(R.string.factory1_name)));
         btnEnrollFactory2.setOnClickListener(v -> showFarmSelectionDialog(getString(R.string.factory2_name)));
         btnEnrollFactory3.setOnClickListener(v -> showFarmSelectionDialog(getString(R.string.factory3_name)));
     }
 
     private void showFarmSelectionDialog(String factoryName) {
-        String[] options = {
-                "Farm A - Athani, Survey 142/2A | Harvest: Early Season",
-                "Farm B - Kagwad, Survey 88/1 | Harvest: Main Season"
-        };
+        if (userFarms.isEmpty()) {
+            Toast.makeText(requireContext(), "Add at least one farm first", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String[] options = new String[userFarms.size()];
+        for (int i = 0; i < userFarms.size(); i++) {
+            Farm farm = userFarms.get(i);
+            options[i] = farm.getVillage() + " • Survey " + farm.getSurveyNumber() + " • " + farm.getCropType();
+        }
 
         final int[] selectedIndex = {-1};
 
@@ -63,8 +101,9 @@ public class NearbyFactoriesFragment extends Fragment {
                         return;
                     }
 
-                    String farmName = selectedIndex[0] == 0 ? "Farm A" : "Farm B";
-                    String harvestName = selectedIndex[0] == 0 ? "Early Season" : "Main Season";
+                    Farm selectedFarm = userFarms.get(selectedIndex[0]);
+                    String farmName = selectedFarm.getVillage() + " - " + selectedFarm.getSurveyNumber();
+                    String harvestName = selectedFarm.getCropType();
                     EnrollmentState.setEnrollment(requireContext(), farmName + " - " + factoryName, harvestName);
                     Toast.makeText(requireContext(), R.string.enroll_success, Toast.LENGTH_SHORT).show();
 

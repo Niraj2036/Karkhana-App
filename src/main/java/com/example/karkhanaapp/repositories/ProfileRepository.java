@@ -62,6 +62,22 @@ public class ProfileRepository {
     }
 
     /**
+     * Check if profile exists for farmer
+     */
+    public void checkProfileExists(String farmerId, OnProfileCheckListener listener) {
+        firestore.collection(PROFILES_COLLECTION)
+                .document(farmerId)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    listener.onResult(snapshot.exists());
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error checking profile existence", e);
+                    listener.onResult(false);
+                });
+    }
+
+    /**
      * Update profile photo URL
      */
     public void updateProfilePhotoUrl(String farmerId, String photoUrl, OnCompleteListener listener) {
@@ -84,6 +100,13 @@ public class ProfileRepository {
     public interface OnCompleteListener {
         void onSuccess(Profile profile);
         void onError(String error);
+    }
+
+    /**
+     * Listener interface for profile existence check
+     */
+    public interface OnProfileCheckListener {
+        void onResult(boolean exists);
     }
 }
 

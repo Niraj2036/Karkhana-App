@@ -9,13 +9,16 @@ public class Harvest {
     private String harvestId;
 
     private String farmId;
+    private String farmerId;
     private String cropId;
     private String cropCode;
+    private String cropType;
     private String variety;
     private Double expectedYield;
     private String status;
     private Double actualWeight;
     private Date harvestDate;
+    private String plantingDate;
     private String sugarFactoryId;
 
     @ServerTimestamp
@@ -37,6 +40,8 @@ public class Harvest {
         this.actualWeight = 0.0;
     }
 
+    // ...existing getters and setters...
+
     public String getHarvestId() {
         return harvestId;
     }
@@ -51,6 +56,30 @@ public class Harvest {
 
     public void setFarmId(String farmId) {
         this.farmId = farmId;
+    }
+
+    public String getFarmerId() {
+        return farmerId;
+    }
+
+    public void setFarmerId(String farmerId) {
+        this.farmerId = farmerId;
+    }
+
+    public String getCropType() {
+        return cropType;
+    }
+
+    public void setCropType(String cropType) {
+        this.cropType = cropType;
+    }
+
+    public String getPlantingDate() {
+        return plantingDate;
+    }
+
+    public void setPlantingDate(String plantingDate) {
+        this.plantingDate = plantingDate;
     }
 
     public String getCropId() {

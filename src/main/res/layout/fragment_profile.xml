@@ -60,6 +60,7 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/tvProfileName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -69,6 +70,7 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/tvProfilePhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
@@ -123,6 +125,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tvProfileAadhaar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
@@ -172,6 +175,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tvProfileDistrict"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
@@ -221,6 +225,7 @@
                         android:textSize="12sp" />
 
                     <TextView
+                        android:id="@+id/tvProfileVillage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
@@ -243,6 +248,7 @@
 
             <!-- Edit Profile -->
             <LinearLayout
+                android:id="@+id/rowEditProfile"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
@@ -274,6 +280,7 @@
 
             <!-- Settings -->
             <LinearLayout
+                android:id="@+id/rowSettings"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
@@ -305,6 +312,7 @@
 
             <!-- Help -->
             <LinearLayout
+                android:id="@+id/rowHelp"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
@@ -336,6 +344,7 @@
 
             <!-- About -->
             <LinearLayout
+                android:id="@+id/rowAbout"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:gravity="center_vertical"
@@ -366,6 +375,7 @@
 
         <!-- Logout Button -->
         <Button
+            android:id="@+id/btnLogout"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:layout_marginHorizontal="24dp"

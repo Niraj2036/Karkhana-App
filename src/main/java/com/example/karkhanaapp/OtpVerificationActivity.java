@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class OtpVerificationActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
     private Button btnVerify;
     private TextView tvResend, tvPhoneNumber;
     private CountDownTimer countDownTimer;
+    private String contact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class OtpVerificationActivity extends AppCompatActivity {
         tvPhoneNumber = findViewById(R.id.tvPhoneNumber);
 
         // Show phone number from intent
-        String contact = getIntent().getStringExtra("contact");
+        contact = getIntent().getStringExtra("contact");
         if (contact == null || contact.isEmpty()) {
             contact = getIntent().getStringExtra("phone");
         }
@@ -52,7 +54,21 @@ public class OtpVerificationActivity extends AppCompatActivity {
         findViewById(R.id.backBtn).setOnClickListener(v -> finish());
 
         // Verify button
-        btnVerify.setOnClickListener(v -> startActivity(new Intent(OtpVerificationActivity.this, PersonalDetailsActivity.class)));
+        btnVerify.setOnClickListener(v -> {
+            String otp = otp1.getText().toString().trim()
+                    + otp2.getText().toString().trim()
+                    + otp3.getText().toString().trim()
+                    + otp4.getText().toString().trim();
+
+            if (otp.length() != 4) {
+                Toast.makeText(this, "Enter valid 4-digit OTP", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent intent = new Intent(OtpVerificationActivity.this, PersonalDetailsActivity.class);
+            intent.putExtra("contact", contact);
+            startActivity(intent);
+        });
     }
 
     private void setupOtpAutoFocus(EditText current, EditText next) {
@@ -84,7 +100,10 @@ public class OtpVerificationActivity extends AppCompatActivity {
             public void onFinish() {
                 tvResend.setText(getString(R.string.otp_resend));
                 tvResend.setEnabled(true);
-                tvResend.setOnClickListener(v -> startResendTimer());
+                tvResend.setOnClickListener(v -> {
+                    Toast.makeText(OtpVerificationActivity.this, "OTP resent", Toast.LENGTH_SHORT).show();
+                    startResendTimer();
+                });
             }
         }.start();
     }

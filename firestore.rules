@@ -1,0 +1,99 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    function isUserDocument(userId) {
+      return isOwner(userId);
+    }
+
+    // Farmers Collection
+    // Users can only read/write their own farmer document
+    match /farmers/{farmerId} {
+      allow read: if isSignedIn() && isOwner(farmerId);
+      allow create: if isSignedIn() && isOwner(farmerId);
+      allow update, delete: if isSignedIn() && isOwner(farmerId);
+    }
+
+    // Profiles Collection
+    // Users can read/write their own profile
+    match /profiles/{profileId} {
+      allow read: if isSignedIn() && resource.data.farmerId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.farmerId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.farmerId == request.auth.uid;
+    }
+
+    // Farms Collection
+    // Users can read/write farms they own
+    match /farms/{farmId} {
+      allow read: if isSignedIn() && resource.data.farmerId == request.auth.uid;
+      allow create: if isSignedIn() && request.resource.data.farmerId == request.auth.uid;
+      allow update, delete: if isSignedIn() && resource.data.farmerId == request.auth.uid;
+    }
+
+    // Harvests Collection
+    // Users can read/write harvests for their farms
+    match /harvests/{harvestId} {
+      allow read: if isSignedIn() &&
+        exists(/databases/$(database)/documents/farms/$(resource.data.farmId)) &&
+        get(/databases/$(database)/documents/farms/$(resource.data.farmId)).data.farmerId == request.auth.uid;
+
+      allow create: if isSignedIn() &&
+        exists(/databases/$(database)/documents/farms/$(request.resource.data.farmId)) &&
+        get(/databases/$(database)/documents/farms/$(request.resource.data.farmId)).data.farmerId == request.auth.uid;
+
+      allow update, delete: if isSignedIn() &&
+        exists(/databases/$(database)/documents/farms/$(resource.data.farmId)) &&
+        get(/databases/$(database)/documents/farms/$(resource.data.farmId)).data.farmerId == request.auth.uid;
+    }
+
+    // Harvest Timelines Collection
+    // Users can read/write timelines for their harvests
+    match /harvest_timelines/{timelineId} {
+      allow read: if isSignedIn() &&
+        exists(/databases/$(database)/documents/harvests/$(resource.data.harvestId));
+
+      allow create: if isSignedIn() &&
+        exists(/databases/$(database)/documents/harvests/$(request.resource.data.harvestId));
+
+      allow update, delete: if isSignedIn() &&
+        exists(/databases/$(database)/documents/harvests/$(resource.data.harvestId));
+    }
+
+    // Payments Collection
+    // Users can read/write payments for their harvests
+    match /payments/{paymentId} {
+      allow read: if isSignedIn() &&
+        exists(/databases/$(database)/documents/harvests/$(resource.data.harvestId));
+
+      allow create: if isSignedIn() &&
+        exists(/databases/$(database)/documents/harvests/$(request.resource.data.harvestId));
+
+      allow update: if isSignedIn() &&
+        exists(/databases/$(database)/documents/harvests/$(resource.data.harvestId));
+    }
+
+    // Sugar Factories Collection
+    // All authenticated users can read, only admins can write
+    match /sugar_factories/{factoryId} {
+      allow read: if isSignedIn();
+      allow create, update, delete: if false; // Admin only - manage via Firebase Console
+    }
+
+    // OTP Verifications Collection
+    // System-managed, users can create for their email
+    match /otp_verifications/{otpId} {
+      allow create: if true; // Allow email-based OTP creation
+      allow read: if isSignedIn() && resource.data.email == request.auth.token.email;
+      allow update: if isSignedIn() && resource.data.email == request.auth.token.email;
+    }
+  }
+}
+

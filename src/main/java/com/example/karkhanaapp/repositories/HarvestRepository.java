@@ -87,6 +87,29 @@ public class HarvestRepository {
     }
 
     /**
+     * Get all harvests for a farmer (across all farms)
+     */
+    public LiveData<List<Harvest>> getHarvestsByFarmerId(String farmerId) {
+        MutableLiveData<List<Harvest>> harvestsLiveData = new MutableLiveData<>();
+
+        firestore.collection(HARVESTS_COLLECTION)
+                .whereEqualTo("farmerId", farmerId)
+                .addSnapshotListener((snapshot, e) -> {
+                    if (e != null) {
+                        Log.e(TAG, "Error fetching harvests by farmer", e);
+                        return;
+                    }
+
+                    if (snapshot != null) {
+                        List<Harvest> harvests = snapshot.toObjects(Harvest.class);
+                        harvestsLiveData.setValue(harvests);
+                    }
+                });
+
+        return harvestsLiveData;
+    }
+
+    /**
      * Update harvest
      */
     public void updateHarvest(String harvestId, Harvest harvest, OnCompleteListener listener) {
