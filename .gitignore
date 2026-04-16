@@ -1,1 +1,25 @@
 /build
+
+# Android local/build artifacts
+/.gradle/
+/local.properties
+
+# Firebase local CLI/emulator artifacts
+/.firebase/
+/firebase-debug.log
+/firebase-debug.*.log
+/firestore-debug.log
+/ui-debug.log
+
+# Firebase Functions local environment/runtime config
+/functions/.env
+/functions/.env.*
+!/functions/.env.example
+/functions/.runtimeconfig.json
+
+# Firebase Admin/service account credentials and private keys
+**/*serviceAccount*.json
+**/*service-account*.json
+**/service-account.json
+**/*.p12
+**/*.pem

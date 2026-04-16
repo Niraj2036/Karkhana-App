@@ -2,3 +2,14 @@ node_modules/
 .firebase/
 firebase-debug.log
 
+# Local Firebase Functions env/config
+.env
+.env.*
+!.env.example
+.runtimeconfig.json
+
+# Extra local debug logs
+firebase-debug.*.log
+firestore-debug.log
+ui-debug.log
+

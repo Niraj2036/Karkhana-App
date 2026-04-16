@@ -5,8 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.FrameLayout;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import com.example.karkhanaapp.utils.NotificationUtils;
+import com.example.karkhanaapp.workers.DashboardSyncWorker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainAppActivity extends AppCompatActivity {
@@ -19,6 +23,9 @@ public class MainAppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_app);
+
+        NotificationUtils.ensureNotificationChannel(this);
+        DashboardSyncWorker.schedule(this);
 
         bottomNav = findViewById(R.id.bottomNav);
         fabContainer = findViewById(R.id.fabContainer);

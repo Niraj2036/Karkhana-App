@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 
 import com.example.karkhanaapp.models.Farm;
 import com.example.karkhanaapp.repositories.FarmRepository;
+import com.example.karkhanaapp.utils.NotificationUtils;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class FarmLocationActivity extends AppCompatActivity {
@@ -118,6 +119,12 @@ public class FarmLocationActivity extends AppCompatActivity {
                 public void onSuccess(Farm createdFarm) {
                     btnNext.setEnabled(true);
                     Toast.makeText(FarmLocationActivity.this, "Farm saved", Toast.LENGTH_SHORT).show();
+                    NotificationUtils.showNotification(
+                            FarmLocationActivity.this,
+                            "Farm added successfully",
+                            "Your farm " + village + " - Survey " + surveyNumber + " is now saved.",
+                            (int) (System.currentTimeMillis() & 0x0FFFFFFF)
+                    );
                     Intent intent = new Intent(FarmLocationActivity.this, MainAppActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);

@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.karkhanaapp.models.Farm;
 import com.example.karkhanaapp.repositories.FarmRepository;
 import com.example.karkhanaapp.repositories.HarvestRepository;
+import com.example.karkhanaapp.utils.NotificationUtils;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -122,6 +123,13 @@ public class NearbyFactoriesFragment extends Fragment {
                                 @Override
                                 public void onSuccess(com.example.karkhanaapp.models.Harvest harvest) {
                                     Toast.makeText(requireContext(), R.string.enroll_success, Toast.LENGTH_SHORT).show();
+                                    NotificationUtils.showNotification(
+                                            requireContext(),
+                                            "Enrollment successful",
+                                            "Enrolled " + selectedFarm.getVillage() + " - Survey "
+                                                    + selectedFarm.getSurveyNumber() + " with " + factoryName + ".",
+                                            (int) (System.currentTimeMillis() & 0x0FFFFFFF)
+                                    );
                                     if (requireActivity() instanceof MainAppActivity) {
                                         ((MainAppActivity) requireActivity()).switchToHarvestTab();
                                     }
@@ -130,6 +138,12 @@ public class NearbyFactoriesFragment extends Fragment {
                                 @Override
                                 public void onError(String error) {
                                     Toast.makeText(requireContext(), "Enrollment saved, timeline sync failed", Toast.LENGTH_LONG).show();
+                                    NotificationUtils.showNotification(
+                                            requireContext(),
+                                            "Enrollment saved",
+                                            "Enrollment was saved, but timeline sync failed. Please try again.",
+                                            (int) (System.currentTimeMillis() & 0x0FFFFFFF)
+                                    );
                                     if (requireActivity() instanceof MainAppActivity) {
                                         ((MainAppActivity) requireActivity()).switchToHarvestTab();
                                     }
